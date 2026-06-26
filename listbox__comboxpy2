@@ -1,0 +1,131 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
+
+# Janela
+janela = tk.Tk()
+janela.title("Loja de Roupas")
+janela.geometry("420x480")
+janela.configure(bg="#F5EEF8")
+janela.resizable(False, False)
+
+# Título
+tk.Label(
+    janela,
+    text="Loja de Roupas",
+    font=("Arial", 15, "bold"),
+    bg="#8E44AD",
+    fg="white",
+    pady=12
+).pack(fill="x")
+
+# Combobox
+tk.Label(
+    janela,
+    text="1. Escolha uma roupa:",
+    font=("Arial", 11, "bold"),
+    bg="#F5EEF8"
+).pack(pady=(18,4))
+
+var_roupa = tk.StringVar()
+
+combo = ttk.Combobox(
+    janela,
+    textvariable=var_roupa,
+    values=["Camiseta", "Calça", "Jaqueta", "Vestido"],
+    state="readonly",
+    width=25,
+    font=("Arial",11)
+)
+
+combo.set("Selecione...")
+combo.pack()
+
+# Listbox
+tk.Label(
+    janela,
+    text="2. Escolha o tamanho:",
+    font=("Arial",11,"bold"),
+    bg="#F5EEF8"
+).pack(pady=(18,4))
+
+listbox = tk.Listbox(
+    janela,
+    width=25,
+    height=5,
+    font=("Arial",11),
+    selectbackground="#8E44AD",
+    selectforeground="white"
+)
+
+listbox.pack()
+
+tamanhos = ["PP", "P", "M", "G", "GG"]
+
+for tamanho in tamanhos:
+    listbox.insert(tk.END, tamanho)
+
+# Função
+def mostrar():
+    roupa = var_roupa.get()
+    indice = listbox.curselection()
+
+    if roupa == "Selecione...":
+        messagebox.showwarning("Aviso", "Escolha uma roupa!")
+        return
+
+    if not indice:
+        messagebox.showwarning("Aviso", "Escolha um tamanho!")
+        return
+
+    tamanho = listbox.get(indice[0])
+
+    messagebox.showinfo(
+        "Pedido",
+        f"Roupa: {roupa}\nTamanho: {tamanho}"
+    )
+
+# Botão
+tk.Button(
+    janela,
+    text="Confirmar",
+    command=mostrar,
+    bg="#8E44AD",
+    fg="white",
+    font=("Arial",12,"bold"),
+    width=18
+).pack(pady=20)
+
+# Informações
+frame = tk.Frame(janela, bg="#E8DAEF", padx=15, pady=10)
+frame.pack(fill="x", padx=20)
+
+tk.Label(
+    frame,
+    text="Informações",
+    font=("Arial",10,"bold"),
+    bg="#E8DAEF"
+).pack(anchor="w")
+
+tk.Label(
+    frame,
+    text="• Combobox → Escolha da roupa",
+    bg="#E8DAEF",
+    font=("Arial",10)
+).pack(anchor="w")
+
+tk.Label(
+    frame,
+    text="• Listbox → Escolha do tamanho",
+    bg="#E8DAEF",
+    font=("Arial",10)
+).pack(anchor="w")
+
+# Rodapé
+tk.Label(
+    janela,
+    text="IFMT - Exemplo Tkinter",
+    font=("Arial",8,"italic"),
+    bg="#F5EEF8"
+).pack(side="bottom", pady=5)
+
+janela.mainloop()
